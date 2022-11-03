@@ -53,6 +53,7 @@ MY_APPS = [
     "payments",
     "reviews",
     "users",
+    "cards"
 ]
 
 INSTALLED_APPS = DJANGO_APPPS + THIRD_PARTY_APPS + MY_APPS
