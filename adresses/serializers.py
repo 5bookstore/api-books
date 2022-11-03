@@ -12,7 +12,7 @@ class SerializerAdress(serializers.ModelSerializer):
             "zip_code",
             "city",
             "state",
-            "adress_complement",
+            "address_complement",
         ]
 
     def create(self, validated_data):

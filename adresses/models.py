@@ -8,5 +8,5 @@ class Adress(models.Model):
     zip_code = models.CharField(max_length=8)
     city = models.CharField()
     state = models.CharField(max_length=2)
-    adress_complement = models.CharField()
+    address_complement = models.CharField()
     # Relation 1:1user
