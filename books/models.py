@@ -37,13 +37,15 @@ class Book(models.Model):
     author = models.ForeignKey(
         'authors.Author',
         on_delete=models.SET_NULL,
-        related_name='books'
+        related_name='books',
+        null=True
     )
 
     category = models.ForeignKey(
-        'categories.Category',
+        'categories.Categories',
         on_delete=models.SET_NULL,
-        related_name='books'
+        related_name='books',
+        null=True
     )
 
     orders = models.ManyToManyField(

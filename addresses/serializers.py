@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import Adress
+from .models import Address
 
 
-class SerializerAdress(serializers.ModelSerializer):
+class SerializerAddress(serializers.ModelSerializer):
     class Meta:
-        model = Adress
+        model = Address
         fields = "__all__"

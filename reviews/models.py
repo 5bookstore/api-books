@@ -4,7 +4,7 @@ import uuid
 
 class Review(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    stars = models.PositiveIntegerField(min_length=1, max_length=5)
+    stars = models.PositiveIntegerField()
     rating = models.CharField(max_length=600)
 
     user = models.ForeignKey(
@@ -12,5 +12,5 @@ class Review(models.Model):
     )
 
     book = models.ForeignKey(
-        "books.Book", on_delete=models.SET_NULL, related_name="reviews"
+        "books.Book", on_delete=models.SET_NULL, related_name="reviews", null=True
     )
