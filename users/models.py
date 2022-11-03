@@ -4,4 +4,6 @@ import uuid
 
 
 class User(AbstractUser):
-    ...
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    cpf = models.CharField(max_length = 14,unique = True)
+    pass
