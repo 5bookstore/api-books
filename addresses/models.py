@@ -1,7 +1,9 @@
 from django.db import models
+import uuid
 
 
 class Address(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     street_name = models.CharField()
     district = models.CharField()
     number = models.IntegerField()
@@ -9,4 +11,3 @@ class Address(models.Model):
     city = models.CharField()
     state = models.CharField(max_length=2)
     address_complement = models.CharField()
-    # Relation 1:1user

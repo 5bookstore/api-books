@@ -34,19 +34,19 @@ class Book(models.Model):
     width = models.DecimalField(max_digits=4, decimal_places=2, default=0)
     diameter = models.PositiveIntegerField(default=0)
 
-    # author = models.ForeignKey(
-    #     'authors.Author',
-    #     on_delete=models.SET_NULL,
-    #     related_name='books'
-    # )
+    author = models.ForeignKey(
+        'authors.Author',
+        on_delete=models.SET_NULL,
+        related_name='books'
+    )
 
-    # category = models.ForeignKey(
-    #     'categories.Category',
-    #     on_delete=models.SET_NULL,
-    #     related_name='books'
-    # )
+    category = models.ForeignKey(
+        'categories.Category',
+        on_delete=models.SET_NULL,
+        related_name='books'
+    )
 
-    # orders = models.ManyToManyField(
-    #     'orders.Order',
-    #     related_name='books'
-    # )
+    orders = models.ManyToManyField(
+        'orders.Order',
+        related_name='books'
+    )
