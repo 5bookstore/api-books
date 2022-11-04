@@ -11,10 +11,7 @@ class User(AbstractUser):
         "addresses.Address",
         related_name="user",
         on_delete=models.CASCADE,
+        null = True
     )
 
-    card = models.OneToOneField(
-        "cards.Card",
-        related_name="user",
-        on_delete=models.CASCADE,
-    )
+    REQUIRED_FIELDS = ["first_name","last_name","email","cpf"]
