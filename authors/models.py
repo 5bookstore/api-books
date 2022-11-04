@@ -7,4 +7,4 @@ from traitlets import default
 
 class Author(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    name = models.CharField(max_length=127)
+    name = models.CharField(max_length=127, unique=True)
