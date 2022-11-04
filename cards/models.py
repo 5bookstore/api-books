@@ -7,3 +7,9 @@ class Card(models.Model):
     card_name = models.CharField(max_length=25)
     number_card = models.CharField(max_length=16)
     expire_date = models.CharField(max_length=6)
+
+    user = models.OneToOneField(
+        "users.User",
+        related_name="cards",
+        on_delete=models.CASCADE,
+    )

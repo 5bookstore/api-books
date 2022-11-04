@@ -8,4 +8,5 @@ class SerializerAddress(serializers.ModelSerializer):
         
         model = Address
         fields = "__all__"
-        
+
+        read_only_fields = ["id"]
