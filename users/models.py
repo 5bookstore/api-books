@@ -8,10 +8,7 @@ class User(AbstractUser):
     cpf = models.CharField(max_length=14, unique=True)
 
     address = models.OneToOneField(
-        "addresses.Address",
-        related_name="user",
-        on_delete=models.CASCADE,
-        null = True
+        "addresses.Address", related_name="user", on_delete=models.CASCADE, null=True
     )
 
-    REQUIRED_FIELDS = ["first_name","last_name","email","cpf"]
+    REQUIRED_FIELDS = ["first_name", "last_name", "email", "cpf"]
