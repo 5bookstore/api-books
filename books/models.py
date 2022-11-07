@@ -5,8 +5,8 @@ import uuid
 
 # Create your models here.
 class TypeBooks(models.TextChoices):
-    EBOOK = 'E-book'
-    BOOK = 'Book'
+    EBOOK = "E-book"
+    BOOK = "Book"
 
 
 class Book(models.Model):
@@ -23,32 +23,24 @@ class Book(models.Model):
     country = models.CharField(max_length=50)
     isbn = models.PositiveIntegerField(validators=[MaxValueValidator(13)])
     type = models.CharField(
-        max_length=7,
-        choices=TypeBooks.choices,
-        default=TypeBooks.EBOOK
+        max_length=7, choices=TypeBooks.choices, default=TypeBooks.EBOOK
     )
-    amount = models.PositiveIntegerField(default=1)
-    weigth = models.PositiveIntegerField(default=0)
-    format = models.PositiveIntegerField(default=0)
-    length = models.DecimalField(max_digits=4, decimal_places=2, default=0)
-    width = models.DecimalField(max_digits=4, decimal_places=2, default=0)
-    diameter = models.PositiveIntegerField(default=0)
+    amount = models.PositiveIntegerField()
+    weigth = models.PositiveIntegerField()
+    format = models.PositiveIntegerField()
+    length = models.DecimalField(max_digits=4, decimal_places=2)
+    width = models.DecimalField(max_digits=4, decimal_places=2)
+    diameter = models.PositiveIntegerField()
 
     author = models.ForeignKey(
-        'authors.Author',
-        on_delete=models.SET_NULL,
-        related_name='books',
-        null=True
+        "authors.Author", on_delete=models.SET_NULL, related_name="books", null=True
     )
 
     category = models.ForeignKey(
-        'categories.Categories',
+        "categories.Categories",
         on_delete=models.SET_NULL,
-        related_name='books',
-        null=True
+        related_name="books",
+        null=True,
     )
 
-    orders = models.ManyToManyField(
-        'orders.Order',
-        related_name='books'
-    )
+    orders = models.ManyToManyField("orders.Order", related_name="books")
