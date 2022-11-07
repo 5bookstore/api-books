@@ -14,8 +14,7 @@ class Order(models.Model):
     shipping = models.IntegerField(null=False)
     ammount_items = models.IntegerField(null=False)
     total_value = models.IntegerField(null=False)
-
+    
     user = models.ForeignKey(
         "users.User", on_delete=models.CASCADE, related_name="orders"
     )
-
