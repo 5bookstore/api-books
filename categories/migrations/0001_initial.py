@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Author",
+            name="Categories",
             fields=[
                 (
                     "id",
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("name", models.CharField(max_length=127)),
+                ("name", models.CharField(max_length=125)),
             ],
         ),
     ]

@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Author",
+            name="Card",
             fields=[
                 (
                     "id",
@@ -23,7 +23,9 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("name", models.CharField(max_length=127)),
+                ("card_name", models.CharField(max_length=25)),
+                ("number_card", models.CharField(max_length=16)),
+                ("expire_date", models.CharField(max_length=6)),
             ],
         ),
     ]
