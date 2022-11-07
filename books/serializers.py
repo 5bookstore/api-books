@@ -61,4 +61,4 @@ class EbookSerializer(ModelSerializer):
             "type",
         ]
 
-    read_only_fields = ["id"]
+        read_only_fields = ["id"]
