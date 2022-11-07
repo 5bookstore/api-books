@@ -1,28 +1,32 @@
 from cards.permissions import IsAdminOrUser, HasObjectPermissionOrIsAdmin
-from .serializers import BookSerualizer
+from .serializers import BookSerializer, EbookSerializer
 from .models import Book
-
 from rest_framework import generics
-
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAdminUser
+from django.shortcuts import get_object_or_404
+from authors.models import Author
+import ipdb
 
 
 class BookListAndPostViews(generics.ListCreateAPIView):
+
     authentication_classes = [TokenAuthentication]
-    
-    permission_classes = [IsAdminOrUser]
+    permission_classes = [IsAdminUser]
+
     queryset = Book.objects.all()
 
     def get_serializer_class(self):
-        if self.request.method == "GET":
-            return BookSerualizer
-        return BookSerualizer
-
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        if self.request.method == "GET" or self.request.data["type"] == "Book":
+            return BookSerializer
+        return EbookSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+
+        autor_data = self.request.data.pop("author")
+        author_exist = get_object_or_404(Author, id=autor_data)
+
+        serializer.save(author=author_exist)
 
 
 class BookUpdateAndDestroyViews(generics.UpdateAPIView, generics.DestroyAPIView):
@@ -30,4 +34,4 @@ class BookUpdateAndDestroyViews(generics.UpdateAPIView, generics.DestroyAPIView)
     permission_classes = [HasObjectPermissionOrIsAdmin]
 
     queryset = Book.objects.all()
-    serializer_class = BookSerualizer
+    serializer_class = BookSerializer
