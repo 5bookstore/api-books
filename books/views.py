@@ -1,4 +1,3 @@
-from cards.permissions import IsAdminOrUser, HasObjectPermissionOrIsAdmin
 from .serializers import BookSerializer, EbookSerializer
 from .models import Book
 from rest_framework import generics
@@ -8,8 +7,6 @@ from django.shortcuts import get_object_or_404
 from authors.models import Author
 from rest_framework.response import Response
 from rest_framework import status
-import ipdb
-from rest_framework.exceptions import ValidationError
 
 
 class BookListAndPostViews(generics.ListCreateAPIView):
@@ -69,7 +66,7 @@ class BookListAndPostViews(generics.ListCreateAPIView):
 
 class BookUpdateAndDestroyViews(generics.UpdateAPIView, generics.DestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [HasObjectPermissionOrIsAdmin]
+    permission_classes = [IsAdminUser]
 
     queryset = Book.objects.all()
     serializer_class = BookSerializer
