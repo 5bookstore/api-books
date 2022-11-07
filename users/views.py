@@ -7,8 +7,7 @@ from .models import User
 from .permissions import IsAdminOrUser, IsOwner
 from rest_framework.permissions import IsAdminUser
 
-import ipdb
-
+from addresses.models import Address
 
 class ListCreateUserView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -23,6 +22,10 @@ class UpdateUserView(generics.RetrieveUpdateAPIView):
     def update(self, request, *args, **kwargs):
         try:
             userSelect = self.queryset.filter(id=self.kwargs["pk"])
+            dataAddressUpdate = userSelect[0].address 
+            if request.data.get("address"):
+                dataAddressUpdate = request.data.pop("address")
+            Address.objects.filter(id = userSelect[0].address.id).update(**dataAddressUpdate)
             dataUpdate = {
                 **request.data,
                 "is_active": userSelect[0].is_active,
@@ -33,7 +36,7 @@ class UpdateUserView(generics.RetrieveUpdateAPIView):
             serial = UserSerializer(userGet)
             return Response(serial.data, status.HTTP_200_OK)
         except Exception:
-            return Response({"detail": "User Not Found"})
+            return Response({"detail": "User Not Found"},status.HTTP_404_NOT_FOUND)
 
 
 class UpdateActiveView(generics.RetrieveUpdateAPIView):
