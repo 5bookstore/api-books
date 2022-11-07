@@ -8,4 +8,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = "__all__"
 
-        extra_kwargs = {"stars": {"min_value": 1, "max_value": 5}}
+        extra_kwargs = {
+            "user": {'required': False},
+            "stars": {"min_value": 1, "max_value": 5}
+         }
