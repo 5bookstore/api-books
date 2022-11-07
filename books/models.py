@@ -37,10 +37,7 @@ class Book(models.Model):
     )
 
     category = models.ForeignKey(
-        "categories.Categories",
-        on_delete=models.SET_NULL,
-        related_name="books",
-        null=True,
+        "categories.Categories", on_delete=models.CASCADE, related_name="books"
     )
 
     orders = models.ManyToManyField("orders.Order", related_name="books")

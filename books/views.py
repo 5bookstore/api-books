@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404
 from authors.models import Author
 from rest_framework.response import Response
 from rest_framework import status
+from categories.models import Categories
+import ipdb
 
 
 class BookListAndPostViews(generics.ListCreateAPIView):
@@ -59,9 +61,13 @@ class BookListAndPostViews(generics.ListCreateAPIView):
         )
 
     def perform_create(self, serializer):
+        category_data = self.request.data.pop("category")
         autor_data = self.request.data.pop("author")
+
         author_exist = get_object_or_404(Author, id=autor_data)
-        serializer.save(author=author_exist)
+        category_exist = get_object_or_404(Categories, id=category_data)
+
+        serializer.save(author=author_exist, category=category_exist)
 
 
 class BookUpdateAndDestroyViews(generics.UpdateAPIView, generics.DestroyAPIView):
