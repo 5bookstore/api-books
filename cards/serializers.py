@@ -3,7 +3,15 @@ from rest_framework import serializers
 from cards.models import Card
 
 
-class AuthorSerializer(serializers.ModelSerializer):
+class CardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
-        fields = "__all__"
+        fields = ["id", "user", "card_name", "number_card", "expire_date"]
+        read_only_fields = ["id", "user"]
+
+
+class CardGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ["id", "card_name", "number_card", "expire_date"]
+        read_only_fields = ["id"]
