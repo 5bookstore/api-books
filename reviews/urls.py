@@ -6,9 +6,9 @@ from reviews.views import (
 
 
 urlpatterns = [
-    path("user/<str:book_id>/reviews/", ReviewListAndCreateViews.as_view()),
+    path("reviews/", ReviewListAndCreateViews.as_view()),
     path(
-        "user/<str:book_id>/reviews/<int:review_id>",
+        "reviews/<str:review_id>/",
         ReviewRetriveUpdateDestroyViews.as_view()
     ),
 ]
