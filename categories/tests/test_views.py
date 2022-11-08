@@ -3,7 +3,7 @@ from rest_framework.views import status
 from users.serializers import User
 
 
-class TestSongView(APITestCase):
+class TestCategoriesViews(APITestCase):
     @classmethod
     def setUpTestData(cls):
         cls.default_URL = "/api/categories/"
