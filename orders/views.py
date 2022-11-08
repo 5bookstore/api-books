@@ -24,7 +24,6 @@ class OrderListAndCreateViews(generics.ListCreateAPIView):
     def get_queryset(self):
         return super().get_queryset()
     """
-
     def create(self, request, *args, **kwargs):
         # ipdb.set_trace()
         # print("1" * 1)
@@ -34,7 +33,7 @@ class OrderListAndCreateViews(generics.ListCreateAPIView):
         for elem in request.data:
             object_book = get_object_or_404(Book, id=elem["books"])
             totalValue += object_book.price * elem["ammount_items"]
-            ammount += elem["ammount_items"]
+            ammount = elem["ammount_items"]
             data = {
                 "user":request.user,
                 "shipping":4,
@@ -42,6 +41,7 @@ class OrderListAndCreateViews(generics.ListCreateAPIView):
                 "total_value":totalValue
             }
             create = Order.objects.create(**data)
+            create.books.add(object_book)
             listOrders.append(model_to_dict(create))
         return Response(
             listOrders, status=status.HTTP_201_CREATED
