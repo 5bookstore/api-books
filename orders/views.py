@@ -6,6 +6,7 @@ from .permissions import isUserOrAdmin
 from django.shortcuts import get_object_or_404
 from books.models import Book
 from rest_framework import status
+from django.forms.models import model_to_dict
 from rest_framework.response import Response
 import ipdb
 
@@ -27,11 +28,21 @@ class OrderListAndCreateViews(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         # ipdb.set_trace()
         # print("1" * 1)
-        object_book = get_object_or_404(Book, id=request.data["books"])
-        serializer = OrderSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(books=object_book)
-        headers = self.get_success_headers(serializer.data)
+        totalValue = 0
+        ammount = 0
+        listOrders = []
+        for elem in request.data:
+            object_book = get_object_or_404(Book, id=elem["books"])
+            totalValue += object_book.price * elem["ammount_items"]
+            ammount += elem["ammount_items"]
+            data = {
+                "user":request.user,
+                "shipping":4,
+                "ammount_items":ammount,
+                "total_value":totalValue
+            }
+            create = Order.objects.create(**data)
+            listOrders.append(model_to_dict(create))
         return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+            listOrders, status=status.HTTP_201_CREATED
         )

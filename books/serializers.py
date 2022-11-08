@@ -2,12 +2,13 @@ from rest_framework.serializers import ModelSerializer
 from .models import Book
 from authors.serializers import AuthorSerializer
 from authors.models import Author
+from categories.serializers import CategoriesSerializer
 import ipdb
 
 
 class BookSerializer(ModelSerializer):
 
-    # category = CategorySerializer(read_only=True)
+    category = CategoriesSerializer(read_only=True)
     # order = OrdersSerializer(read_only=True)
     author = AuthorSerializer(read_only=True)
 
@@ -17,6 +18,7 @@ class BookSerializer(ModelSerializer):
             "id",
             "name",
             "author",
+            "category",
             "date_release",
             "book_cover",
             "price",
