@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from authors.models import Author
-from users.models import User
+
 
 # Create your tests here.
 class AuthorModelTest(TestCase):
