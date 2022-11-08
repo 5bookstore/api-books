@@ -14,6 +14,7 @@ import ipdb
 # Create your views here.
 class ReviewListAndCreateViews(ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
+
     queryset = Review.objects.all()
 
     serializer_class = ReviewSerializer
@@ -27,8 +28,16 @@ class ReviewListAndCreateViews(ListCreateAPIView):
             book = Book.objects.get(id=book_id)
         except ValidationError:
             return Response(
-                {'datail': 'Book not found'},
+                {'detail': 'Book not found'},
                 status.HTTP_404_NOT_FOUND
+            )
+
+        review_exists = Review.objects.filter(book=book.id, user=request.user)
+
+        if len(review_exists) > 0:
+            return Response(
+                {'detail': 'review already exists'},
+                status.HTTP_403_FORBIDDEN
             )
 
         serializer = ReviewSerializer(data=request.data)
@@ -40,6 +49,8 @@ class ReviewListAndCreateViews(ListCreateAPIView):
 
 
 class ReviewRetriveUpdateDestroyViews(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+
     queryset = Review.objects.all()
 
     serializer_class = ReviewDetailSerializer
