@@ -9,7 +9,6 @@ from django.shortcuts import get_object_or_404
 from books.models import Book
 
 
-
 class OrderListAndCreateViews(generics.ListCreateAPIView):
 
     authentication_classes = [TokenAuthentication]
@@ -18,17 +17,12 @@ class OrderListAndCreateViews(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
-    """
-        FAZER GET DE QUERYSET - FILTRAGEM POR USUARIO 
-    def get_queryset(self):
-        return super().get_queryset()
-    """
-
     def create(self, request, *args, **kwargs):
-        for elem in request.data:
-            object_book = Book.objects.get(id=elem["books"])
-            serializer = OrderSerializer(data=elem,context={"user":request.user})
-            serializer.is_valid(raise_exception=True)
-            serializer.save(books=object_book)
+        serializer = OrderSerializer(
+            data=request.data,
+            context={"user": request.user}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data)
 
