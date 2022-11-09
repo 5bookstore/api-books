@@ -25,8 +25,6 @@ class BookListAndPostViews(generics.ListCreateAPIView):
         return EbookSerializer
 
     def create(self, request, *args, **kwargs):
-
-        # ipdb.set_trace()
         data = request.data
         if request.data["type"] == "E-book":
             default_ebook_params = {
