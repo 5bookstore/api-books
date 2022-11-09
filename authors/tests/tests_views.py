@@ -13,10 +13,6 @@ class TestAuthorView(APITestCase):
         cls.correct_author_data = {
             "name": "John Green",
         }
-        
-        cls.author_data_1 = {
-            "name": "Fabiola Simoes"
-        }
 
     
         cls.user = {
@@ -31,9 +27,7 @@ class TestAuthorView(APITestCase):
         cls.admin = User.objects.create_superuser(**cls.user)
         cls.token_admin = Token.objects.create(user=cls.admin)
 
-        #cls.author_created = Author.objects.create(**cls.author_data_1, token=cls.token_admin)
-
-    def test_create_product_with_admin(self):
+    def test_create_author_with_admin(self):
         self.client.credentials(
             HTTP_AUTHORIZATION="Token " + self.token_admin.key)
 
