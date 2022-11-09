@@ -8,7 +8,6 @@ from authors.models import Author
 from rest_framework.response import Response
 from rest_framework import status
 from categories.models import Categories
-import ipdb
 
 
 class BookListAndPostViews(generics.ListCreateAPIView):
