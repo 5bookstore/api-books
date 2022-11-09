@@ -70,7 +70,6 @@ class OrderListAndCreateViews(generics.ListCreateAPIView):
             create = Order.objects.create(**data)
             create.books.add(object_book)
             listOrders.append(model_to_dict(create))
-        print(frete)
         return Response(
             listOrders, status=status.HTTP_201_CREATED
         )
