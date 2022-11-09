@@ -8,7 +8,6 @@ from authors.models import Author
 from rest_framework.response import Response
 from rest_framework import status
 from categories.models import Categories
-import ipdb
 
 
 class BookListAndPostViews(generics.ListCreateAPIView):
@@ -17,15 +16,9 @@ class BookListAndPostViews(generics.ListCreateAPIView):
     permission_classes = [IsAdminUser]
 
     queryset = Book.objects.all()
-
-    def get_serializer_class(self):
-        if self.request.method == "GET" or self.request.data["type"] == "Book":
-            return BookSerializer
-        return EbookSerializer
+    serializer_class = BookSerializer
 
     def create(self, request, *args, **kwargs):
-
-        # ipdb.set_trace()
         data = request.data
         if request.data["type"] == "E-book":
             default_ebook_params = {

@@ -6,6 +6,7 @@ from rest_framework.authtoken.models import Token
 from .models import User
 from .permissions import IsAdminOrUser, IsOwner
 from rest_framework.permissions import IsAdminUser
+from django.contrib.auth import authenticate
 
 import ipdb
 
@@ -60,7 +61,7 @@ class LoginView(APIView):
             serializer.is_valid(raise_exception=True)
             user = User.objects.get(username=serializer.data["username"])
 
-            verifyPassword = User.check_password(user, serializer.data["password"])
+            verifyPassword = authenticate(user, serializer.data["password"])
 
             if verifyPassword:
                 token, created = Token.objects.get_or_create(user=user)
