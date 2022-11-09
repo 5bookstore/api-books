@@ -14,8 +14,8 @@ class CategoriesModelTest(TestCase):
         cls.category = Categories.objects.create(**cls.categories)
     
     def test_name_max_length(self):
-        max_leng = self.categories._meta.get_field("name").max_length
-        self.assertEqual(max_leng, 125)
+        max_length = self.category._meta.get_field("name").max_length
+        self.assertEqual(max_length, 125)
         
     def test_fields(self):
         self.assertEqual(self.category.name, self.categories["name"])
