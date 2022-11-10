@@ -7,10 +7,8 @@ import ipdb
 
 
 class BookSerializer(ModelSerializer):
-
-    category = CategoriesSerializer(read_only=True)
-    # order = OrdersSerializer(read_only=True)
     author = AuthorSerializer(read_only=True)
+    category = CategoriesSerializer(read_only=True)
 
     class Meta:
         model = Book
@@ -43,6 +41,7 @@ class BookSerializer(ModelSerializer):
 
 class EbookSerializer(ModelSerializer):
     author = AuthorSerializer(read_only=True)
+    category = CategoriesSerializer(read_only=True)
 
     class Meta:
         model = Book
@@ -50,6 +49,7 @@ class EbookSerializer(ModelSerializer):
             "id",
             "name",
             "author",
+            "category",
             "date_release",
             "book_cover",
             "price",
