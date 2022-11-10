@@ -2,7 +2,7 @@ from .serializers import BookSerializer, EbookSerializer
 from .models import Book
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAdminUser
+from authors.permissions import IsAdminOrReadyOnly
 from django.shortcuts import get_object_or_404
 from authors.models import Author
 from rest_framework.response import Response
@@ -13,7 +13,7 @@ from categories.models import Categories
 class BookListAndPostViews(generics.ListCreateAPIView):
 
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadyOnly]
 
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -39,7 +39,9 @@ class BookListAndPostViews(generics.ListCreateAPIView):
             headers = self.get_success_headers(serializer.data)
 
             return Response(
-                serializer.data, status=status.HTTP_201_CREATED, headers=headers
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+                headers=headers
             )
 
         serializer = BookSerializer(data=data)
@@ -63,9 +65,10 @@ class BookListAndPostViews(generics.ListCreateAPIView):
         serializer.save(author=author_exist, category=category_exist)
 
 
-class BookUpdateAndDestroyViews(generics.UpdateAPIView, generics.DestroyAPIView):
+class BookUpdateAndDestroyViews(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadyOnly]
 
+    lookup_url_kwarg = 'book_id'
     queryset = Book.objects.all()
     serializer_class = BookSerializer
