@@ -1,36 +1,59 @@
-import ipdb
-from users.serializers import UserSerializer
-from books.serializers import BookSerializer
 from books.models import Book
 
 from correios_utils import (
-    Cotacao,
     FormatoEncomenda,
     SimNao,
     Servico,
     realizar_cotacao,
-    get_descricao_servico,
 )
+
 from django.shortcuts import get_object_or_404
 
 
 def frete(*args, **kwargs):
-    totalValue = 0
-    ammount = 0
-    # user = UserSerializer(self.context["user"])
     zipCode = kwargs['user'].address.zip_code
-    book = get_object_or_404(Book, id=kwargs['data']['books'])
-    ipdb.set_trace()
+    medidas = {
+        'altura': 0,
+        'largura': 0,
+        'diametro': 0,
+        'comprimento': 0,
+        'peso': 0,
+        'quantidade': 0,
+        'preco_total': 0
+
+    }
+
+    for obj_book in kwargs['data']:
+        if obj_book.get('books'):
+            book = get_object_or_404(Book, id=obj_book.get('books'))
+            if book.weigth > 0:
+                medidas['peso'] += book.weigth * obj_book.get('ammount_items')
+
+            if book.width > medidas['comprimento']:
+                medidas['comprimento'] = book.width
+
+            if book.length > 0:
+                medidas['altura'] += book.length * \
+                    obj_book.get('ammount_items')
+
+            if book.width > medidas['largura']:
+                medidas['largura'] = book.width
+
+            if book.diameter > medidas['diametro']:
+                medidas['diametro'] = book.diameter
+
+        medidas['preco_total'] += book.price * obj_book.get('ammount_items')
+        medidas['quantidade'] += obj_book.get('ammount_items')
 
     frete = realizar_cotacao(
-        cep_origem="70002900",
+        cep_origem="02912000",
         cep_destino=zipCode,
         codigos_servicos=[Servico.PAC, Servico.SEDEX, Servico.SEDEX_10],
-        peso=book.weigth,
-        comprimento=book.width,
-        altura=book.length,
-        largura=book.width,
-        diametro=book.diameter,
+        peso=medidas['peso'],
+        comprimento=medidas['comprimento'],
+        altura=medidas['altura'],
+        largura=medidas['largura'],
+        diametro=medidas['diametro'],
         formato_encomenda=FormatoEncomenda.CAIXA_PACOTE,
         valor_declarado=book.price,
         mao_propria=SimNao.NAO,
@@ -39,14 +62,4 @@ def frete(*args, **kwargs):
         senha_empresa="564321",
     )
 
-    # totalValue += book.price * validated_data["ammount_items"]
-    # ammount = validated_data["ammount_items"]
-    # data = {
-    #     "user": self.context["user"],
-    #     "shipping": frete[0].valor,
-    #     "ammount_items": ammount,
-    #     "total_value": totalValue
-    # }
-    create = Order.objects.create(**data)
-    create.books.add(book)
-    return create
+    return frete, medidas
