@@ -52,5 +52,6 @@ class OrderSerializer(serializers.ModelSerializer):
                     'user_id': self.context['user'].id,
                 }
                 created_order = Order.objects.create(**data)
+                created_order.books.add(book)
 
         return created_order
