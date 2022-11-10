@@ -26,10 +26,12 @@ urlpatterns = [
     path("api/", include("books.urls")),
     path("api/", include("reviews.urls")),
     path("api/", include("addresses.urls")),
+    path("api/", include("orders.urls")),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/docs/",
         SpectacularSwaggerView.as_view(url_name="schema"),
         name="api/docs",
     ),
+
 ]

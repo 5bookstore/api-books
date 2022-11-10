@@ -7,7 +7,6 @@ import ipdb
 
 
 class BookSerializer(ModelSerializer):
-
     author = AuthorSerializer(read_only=True)
     category = CategoriesSerializer(read_only=True)
 
